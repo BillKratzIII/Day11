@@ -5,15 +5,20 @@ import java.io.*;
 import java.nio.file.*;
 
 public class WriteAndRead {
-	// declare array lists to to hold countries and capitals
+	// declare array lists to to hold countries, all valid countries and
+	// capitals
 	static ArrayList<String> countries = new ArrayList<>();
 	static ArrayList<String> capitals = new ArrayList<>();
-	// set up paths to files for countries and capitals
+	static ArrayList<String> allCountries = new ArrayList<>();
+	// set up paths to files for countries, all valid countries and capitals
 	static Path countryPath = Paths
 			.get("\\Users\\admin\\newWorkspace\\Day11\\src\\countries_assignment\\countries.txt");
 	static File countryFile = countryPath.toFile();
 	static Path capitalPath = Paths.get("\\Users\\admin\\newWorkspace\\Day11\\src\\countries_assignment\\capitals.txt");
 	static File capitalFile = capitalPath.toFile();
+	static Path allCountriesPath = Paths
+			.get("\\Users\\admin\\newWorkspace\\Day11\\src\\countries_assignment\\validCountries.txt");
+	static File allCountriesFile = allCountriesPath.toFile();
 	// set up path and file to create a new file to store countries and their
 	// capitals
 	static Path newPath = Paths.get("\\Users\\admin\\newWorkspace\\Day11\\src\\countries_assignment\\newFile.txt");
@@ -33,6 +38,20 @@ public class WriteAndRead {
 	}
 
 	// method to fill the array lists of capitals from data in text file
+	public static void fillAllCountriesList() {
+		String temp = null;
+		try (BufferedReader in = new BufferedReader(new FileReader(allCountriesFile))) {
+			while ((temp = in.readLine()) != null) {
+				allCountries.add(temp);
+			}
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	// method to fill the array list of all valid countries from data in text
+	// file
 	public static void fillCapitalList() {
 		String temp = null;
 		try (BufferedReader in = new BufferedReader(new FileReader(capitalFile))) {
@@ -53,17 +72,25 @@ public class WriteAndRead {
 		System.out.println();
 	}
 
-	// method to add a country the user inputs unless it's already in our list
+	// method to add a country the user inputs, so long as it's a valid country
+	// unless it's already in our list
 	public static void addCountry(String country) {
+		String capital = null;
 
-		if (Validation.countryTest(country)) {
+		if (Validation.countryTestOne(country) && Validation.countryTestTwo(country)) {
 			System.out.println();
 			countries.add(country);
 			System.out.println(country + " was added to the list.");
 			System.out.println();
+			System.out.println("What is the capital city of " + country + "?");
+			capital = CountriesApp.getCapital();
+			WriteAndRead.addCapital(capital);
 
-		} else {
+		} else if (Validation.countryTestOne(country) == false) {
 			System.out.println(country + " is already in the list.");
+			System.out.println();
+		} else {
+			System.out.println(country + " is not a known country.");
 			System.out.println();
 		}
 	}
@@ -74,7 +101,7 @@ public class WriteAndRead {
 		int temp = 0;
 
 		// check to ensure the user selected country is in our list
-		if (Validation.countryTest(country)) {
+		if (Validation.countryTestOne(country)) {
 			System.out.println("ERROR: " + country + " was not found in the list.");
 			System.out.println();
 		} else {

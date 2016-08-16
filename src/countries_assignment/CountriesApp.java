@@ -6,15 +6,16 @@ public class CountriesApp {
 
 	public static void main(String[] args) {
 
-		// intialize arrays with data from text files
+		// Initialize arrays with data from text files
 		WriteAndRead.fillCountryList();
 		WriteAndRead.fillCapitalList();
+		WriteAndRead.fillAllCountriesList();
 
 		// call our menu method for user's input and selections
 		menu();
 	}
 
-	// method to diplay menu options to the user
+	// method to display menu options to the user
 	public static void menuOptions() {
 		System.out.println("Please choose one of the following options:");
 		System.out.println("-Enter 1 to diplay a list of countries");
@@ -46,7 +47,6 @@ public class CountriesApp {
 		choice = getUserSelection();
 
 		String country = null;
-		String capital = null;
 
 		switch (choice) {
 		case 1:
@@ -61,9 +61,6 @@ public class CountriesApp {
 			System.out.println("Please enter the country you would like to add:");
 			country = getCountry();
 			WriteAndRead.addCountry(country);
-			System.out.println("What is the capital city of " + country + "?");
-			capital = getCapital();
-			WriteAndRead.addCapital(capital);
 			menu();
 			break;
 

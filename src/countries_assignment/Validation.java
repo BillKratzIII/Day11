@@ -22,12 +22,25 @@ public class Validation {
 	}
 
 	// method to test if a country is already in our list
-	public static boolean countryTest(String country) {
+	public static boolean countryTestOne(String country) {
 		boolean isValid = true;
 
 		for (int i = 0; i < WriteAndRead.countries.size(); i++) {
 			if (country.equalsIgnoreCase(WriteAndRead.countries.get(i))) {
 				isValid = false;
+			}
+		}
+
+		return isValid;
+	}
+
+	// method to test if a country is in our known list of countries
+	public static boolean countryTestTwo(String country) {
+		boolean isValid = false;
+
+		for (int i = 0; i < WriteAndRead.allCountries.size(); i++) {
+			if (country.equalsIgnoreCase(WriteAndRead.allCountries.get(i))) {
+				isValid = true;
 			}
 		}
 
